@@ -1,0 +1,254 @@
+:root {
+  --bg-gradient: radial-gradient(circle at top, #fde2ff 0%, #d0f8ff 45%, #f1f6ff 100%);
+  --panel-bg: rgba(255, 255, 255, 0.78);
+  --card-bg: rgba(255, 255, 255, 0.85);
+  --primary-text: #2f2a4a;
+  --accent: #e46dc5;
+  --accent-dark: #c15aa6;
+  --shadow: 0 18px 40px rgba(79, 117, 161, 0.18);
+  --transition-snappy: cubic-bezier(0.16, 1, 0.3, 1);
+  font-size: 16px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+  color: var(--primary-text);
+  background: var(--bg-gradient);
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+}
+
+.app-shell {
+  display: flex;
+  flex-direction: column;
+  width: min(1100px, 92vw);
+  margin: 32px 0;
+  background: var(--panel-bg);
+  border-radius: 28px;
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(10px);
+}
+
+.app-header {
+  padding: 32px 48px 24px;
+  text-align: center;
+}
+
+.app-header h1 {
+  margin: 0;
+  font-size: clamp(2.2rem, 3.2vw, 3.4rem);
+  letter-spacing: 1px;
+}
+
+.tagline {
+  margin-top: 8px;
+  font-size: clamp(1rem, 1.6vw, 1.2rem);
+  color: rgba(47, 42, 74, 0.7);
+}
+
+.game-panel {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 24px;
+  padding: 0 48px 48px;
+}
+
+.clicker-zone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  padding: 24px;
+  background: var(--card-bg);
+  border-radius: 24px;
+  box-shadow: inset 0 12px 32px rgba(255, 255, 255, 0.35);
+}
+
+.counter-panel {
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+  column-gap: 18px;
+  row-gap: 6px;
+  align-items: end;
+  text-transform: uppercase;
+  letter-spacing: 1.8px;
+}
+
+.counter-label,
+.rate-label,
+.click-label {
+  font-size: 0.75rem;
+  opacity: 0.7;
+}
+
+.counter-value,
+.rate-value,
+.click-value {
+  font-size: clamp(2.4rem, 3vw, 3.2rem);
+  font-weight: 600;
+}
+
+.lotus-button {
+  position: relative;
+  width: clamp(270px, 36vw, 320px);
+  aspect-ratio: 1;
+  border: none;
+  border-radius: 50%;
+  background: linear-gradient(145deg, #fef0ff, #ffd4ef);
+  box-shadow:
+    inset 0 0 0 4px rgba(255, 255, 255, 0.8),
+    0 20px 40px rgba(179, 94, 140, 0.35);
+  transition: transform 140ms var(--transition-snappy), box-shadow 200ms ease;
+  cursor: pointer;
+  padding: 48px;
+}
+
+.lotus-button:focus-visible {
+  outline: 3px solid #6ec1ff;
+  outline-offset: 6px;
+}
+
+.lotus-button:active {
+  transform: scale(0.95);
+  box-shadow:
+    inset 0 0 0 6px rgba(255, 255, 255, 0.8),
+    0 12px 24px rgba(179, 94, 140, 0.25);
+}
+
+.lotus-icon {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 15px 25px rgba(228, 109, 197, 0.28));
+}
+
+.upgrades-panel {
+  background: var(--card-bg);
+  border-radius: 24px;
+  padding: 24px 24px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-shadow: inset 0 12px 32px rgba(255, 255, 255, 0.35);
+}
+
+.upgrades-panel h2 {
+  margin: 0;
+  font-size: 1.4rem;
+  letter-spacing: 2px;
+}
+
+.upgrade-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.upgrade-card {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 12px;
+  align-items: center;
+  padding: 16px 20px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 12px 26px rgba(136, 163, 187, 0.18);
+}
+
+.upgrade-card.deactivated {
+  opacity: 0.5;
+  transform: translateY(6px);
+}
+
+.upgrade-card h3 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.upgrade-card p {
+  margin: 4px 0 0;
+  font-size: 0.9rem;
+  opacity: 0.75;
+}
+
+.upgrade-cost {
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.upgrade-count {
+  font-size: 0.8rem;
+  color: rgba(47, 42, 74, 0.65);
+}
+
+.upgrade-action {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+}
+
+.upgrade-button {
+  padding: 10px 18px;
+  border-radius: 999px;
+  border: none;
+  background: var(--accent);
+  color: #fff;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: transform 160ms var(--transition-snappy), background 160ms ease;
+}
+
+.upgrade-button:disabled {
+  cursor: not-allowed;
+  background: rgba(228, 109, 197, 0.35);
+}
+
+.upgrade-button:not(:disabled):hover {
+  transform: translateY(-2px);
+  background: var(--accent-dark);
+}
+
+@media (max-width: 768px) {
+  .app-shell {
+    margin: 16px;
+  }
+
+  .game-panel {
+    padding: 0 24px 32px;
+  }
+
+  .lotus-button {
+    padding: 36px;
+  }
+}
+
+.lotus-button.is-pulsing {
+  animation: bloom-pulse 280ms var(--transition-snappy);
+}
+
+@keyframes bloom-pulse {
+  0% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.upgrades-hint {
+  margin: 0;
+  font-size: 0.92rem;
+  color: rgba(47, 42, 74, 0.65);
+}
