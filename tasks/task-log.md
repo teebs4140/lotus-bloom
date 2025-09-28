@@ -16,3 +16,5 @@
 - Refactored `script.js` to build upgrade cards once and update their state without rebuilding DOM, preventing interval-driven re-render glitches that blocked button clicks.
 - Added five late-game upgrades to `script.js` spanning per-click boosts, multipliers, and passive income sources to extend progression depth.
 - Added high-score tracking: updated UI to display the top petals tally and wired `script.js` to persist the best score locally per browser session.
+- Made the upgrades list scroll independently by constraining its height and enabling in-panel scrolling, preventing the main page from moving while browsing upgrades.
+- Reworked upgrades panel layout: capped panel height, let the list flex within it, and enabled stable scrollbar space so the upgrade column scrolls independently of the page.
