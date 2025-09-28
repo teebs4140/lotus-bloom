@@ -2,6 +2,8 @@
 
 A peaceful and meditative incremental clicker game where you cultivate lotus petals to grow your garden of serenity.
 
+🎮 **[Play the game here!](https://teebs4140.github.io/lotus-bloom/)**
+
 ## Features
 
 - Click the beautiful lotus flower to collect petals
