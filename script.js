@@ -3,6 +3,7 @@ const state = {
   basePerClick: 1,
   petalsPerClick: 1,
   petalsPerSecond: 0,
+  highScore: 0,
 };
 
 const upgrades = [
@@ -56,12 +57,63 @@ const upgrades = [
     value: 12,
     count: 0,
   },
+  {
+    id: 'silk-weavers',
+    name: 'Silk Weavers',
+    description: 'Delicate threads add +5 petals per click.',
+    baseCost: 4200,
+    costMultiplier: 1.28,
+    type: 'perClickAdd',
+    value: 5,
+    count: 0,
+  },
+  {
+    id: 'wind-chimes',
+    name: 'Wind Chimes',
+    description: 'Soft melodies yield +20 petals per second.',
+    baseCost: 7500,
+    costMultiplier: 1.24,
+    type: 'perSecond',
+    value: 20,
+    count: 0,
+  },
+  {
+    id: 'tea-ritual',
+    name: 'Tea Ritual',
+    description: 'Ceremonial focus grants ×1.35 petals per click.',
+    baseCost: 11000,
+    costMultiplier: 1.38,
+    type: 'perClickMultiplier',
+    value: 1.35,
+    count: 0,
+  },
+  {
+    id: 'crane-keepers',
+    name: 'Crane Keepers',
+    description: 'Graceful cranes tend blooms for +55 petals per second.',
+    baseCost: 18500,
+    costMultiplier: 1.3,
+    type: 'perSecond',
+    value: 55,
+    count: 0,
+  },
+  {
+    id: 'starlit-grove',
+    name: 'Starlit Grove',
+    description: 'Celestial light blesses clicks with ×1.6 petals per click.',
+    baseCost: 32000,
+    costMultiplier: 1.45,
+    type: 'perClickMultiplier',
+    value: 1.6,
+    count: 0,
+  },
 ];
 
 const lotusButton = document.getElementById('lotus-button');
 const petalCountEl = document.getElementById('petal-count');
 const petalRateEl = document.getElementById('petal-rate');
 const petalClickEl = document.getElementById('petal-click');
+const highScoreEl = document.getElementById('high-score');
 const upgradeListEl = document.getElementById('upgrade-list');
 
 const upgradeElements = new Map();
@@ -69,6 +121,9 @@ const upgradeElements = new Map();
 const numberFormatter = new Intl.NumberFormat('en-US', {
   maximumFractionDigits: 1,
 });
+
+const HIGH_SCORE_STORAGE_KEY = 'lotusHighScore';
+let canPersistHighScore = true;
 
 function formatCost(value) {
   if (value >= 1_000_000) {
@@ -103,10 +158,61 @@ function recalculateRates() {
   state.petalsPerSecond = passive;
 }
 
+function loadHighScore() {
+  if (!canPersistHighScore) {
+    return;
+  }
+
+  if (typeof localStorage === 'undefined') {
+    canPersistHighScore = false;
+    return;
+  }
+
+  try {
+    const saved = localStorage.getItem(HIGH_SCORE_STORAGE_KEY);
+    if (saved !== null) {
+      const value = Number(saved);
+      if (Number.isFinite(value)) {
+        state.highScore = Math.max(state.highScore, value);
+      }
+    }
+  } catch (error) {
+    canPersistHighScore = false;
+  }
+}
+
+function saveHighScore() {
+  if (!canPersistHighScore) {
+    return;
+  }
+
+  if (typeof localStorage === 'undefined') {
+    canPersistHighScore = false;
+    return;
+  }
+
+  try {
+    localStorage.setItem(HIGH_SCORE_STORAGE_KEY, String(state.highScore));
+  } catch (error) {
+    canPersistHighScore = false;
+  }
+}
+
+function checkHighScore() {
+  if (state.petals <= state.highScore) {
+    return;
+  }
+
+  state.highScore = state.petals;
+  saveHighScore();
+  highScoreEl.textContent = numberFormatter.format(state.highScore);
+}
+
 function updateCounters() {
   petalCountEl.textContent = numberFormatter.format(state.petals);
   petalRateEl.textContent = numberFormatter.format(state.petalsPerSecond);
   petalClickEl.textContent = numberFormatter.format(state.petalsPerClick);
+  highScoreEl.textContent = numberFormatter.format(state.highScore);
 }
 
 function createUpgradeCards() {
@@ -173,6 +279,7 @@ function updateUpgradeDisplays() {
 function handleLotusClick() {
   state.petals += state.petalsPerClick;
   playBloomPulse();
+  checkHighScore();
   updateCounters();
   updateUpgradeDisplays();
 }
@@ -212,6 +319,7 @@ function startPassiveGrowth() {
     }
 
     state.petals += state.petalsPerSecond / ticksPerSecond;
+    checkHighScore();
     updateCounters();
     updateUpgradeDisplays();
   }, 1000 / ticksPerSecond);
@@ -222,6 +330,7 @@ function init() {
   upgradeListEl.addEventListener('click', handleUpgradeClick);
   recalculateRates();
   createUpgradeCards();
+  loadHighScore();
   updateCounters();
   startPassiveGrowth();
 }

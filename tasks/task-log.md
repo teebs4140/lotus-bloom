@@ -14,3 +14,5 @@
 - Rebuilt `script.js` with upgrade definitions, cost scaling, purchase handling, passive income loop, and rate recalculations.
 - Adjusted upgrade cost calculation in `script.js` to round up to whole petals, preventing mismatch between displayed and required costs for repeat purchases.
 - Refactored `script.js` to build upgrade cards once and update their state without rebuilding DOM, preventing interval-driven re-render glitches that blocked button clicks.
+- Added five late-game upgrades to `script.js` spanning per-click boosts, multipliers, and passive income sources to extend progression depth.
+- Added high-score tracking: updated UI to display the top petals tally and wired `script.js` to persist the best score locally per browser session.
